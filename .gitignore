@@ -14,4 +14,4 @@ sysinfo.txt
 .vs
 
 # include meta file
-*/.*.metadata
+*/.*._metadata
