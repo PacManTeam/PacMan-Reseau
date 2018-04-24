@@ -10,6 +10,7 @@ public class pacman_move : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
         dest = transform.position;
+        Debug.Log(dest);
 	}
 
 	// Update is called once per frame
@@ -35,7 +36,6 @@ public class pacman_move : MonoBehaviour {
         Vector2 dir = dest - (Vector2)transform.position;
         GetComponent<Animator>().SetFloat("DirX", dir.x);
         GetComponent<Animator>().SetFloat("DirY", dir.y);
-        
     }
 
     public bool valid(Vector2 dir)
