@@ -12043,7 +12043,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 0
-  m_Text: 'Score :'
+  m_Text: 'Score : 0'
 --- !u!222 &1082094856
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16523,7 +16523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1676e10372e11584686dbe775feb5c75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.4
+  speed: 0.3
   dest: {x: 0, y: 0}
 --- !u!50 &1490541358
 Rigidbody2D:
