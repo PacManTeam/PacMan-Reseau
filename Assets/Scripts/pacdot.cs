@@ -10,9 +10,9 @@ public class pacdot : MonoBehaviour {
     {
         if (co.name == "pacman")
         {
-            co.GetComponent<scoreJoueur>().score += 10;
+            co.GetComponent<pacmanPlayer>().score += 10;
             Destroy(gameObject);
-            scoreUI.text = "Score : " + co.GetComponent<scoreJoueur>().score.ToString();
+            scoreUI.text = "Score : " + co.GetComponent<pacmanPlayer>().score.ToString();
         }
     }
 }
