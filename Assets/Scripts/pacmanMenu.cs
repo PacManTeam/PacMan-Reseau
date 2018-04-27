@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class blinky_ia : NetworkBehaviour
-{
+public class pacmanMenu : MonoBehaviour {
     public Transform[] waypoints;
     int cur = 0;
 

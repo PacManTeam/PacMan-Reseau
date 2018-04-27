@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class pacdot : MonoBehaviour {
+public class pacdot : NetworkBehaviour {
     public Text scoreUI;
 
     void OnTriggerEnter2D(Collider2D co)
