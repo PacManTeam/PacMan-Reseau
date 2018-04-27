@@ -8,11 +8,12 @@ public class pacdot : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D co)
     {
-        if (co.name == "pacman")
+        if (co.name == "pacman(Clone)")
         {
             co.GetComponent<pacmanPlayer>().score += 10;
             Destroy(gameObject);
             scoreUI.text = "Score : " + co.GetComponent<pacmanPlayer>().score.ToString();
         }
+        Debug.Log(co.name);
     }
 }
