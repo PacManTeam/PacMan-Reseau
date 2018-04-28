@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class pacmanPlayer : NetworkBehaviour {
+public class pacmanPlayer : MonoBehaviour {
 
     public int score = 0;
     public int healthPoint = 3;

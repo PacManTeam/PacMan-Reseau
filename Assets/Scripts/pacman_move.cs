@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class pacman_move : NetworkBehaviour {
+public class pacman_move : MonoBehaviour {
 
     public float speed = 0.4f;
     public Vector2 dest = Vector2.zero;

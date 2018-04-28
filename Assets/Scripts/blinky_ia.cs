@@ -28,4 +28,14 @@ public class blinky_ia : NetworkBehaviour
         GetComponent<Animator>().SetFloat("DirX", dir.x);
         GetComponent<Animator>().SetFloat("DirY", dir.y);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.name == "pacman")
+        {
+            collision.GetComponent<pacmanPlayer>().healthPoint--;
+            Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14,14,1), new Quaternion()).name = "pacman";
+            Destroy(collision.gameObject);
+        }
+    }
 }
