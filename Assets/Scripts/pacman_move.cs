@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class pacman_move : MonoBehaviour {
 
@@ -21,6 +22,12 @@ public class pacman_move : MonoBehaviour {
 
 	// Update is called once per frame
 	public void FixedUpdate () {
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.UnloadSceneAsync("soloMode");
+            SceneManager.LoadScene("mainMenu");
+        }
+
         // Move closer to Destination
         Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
         GetComponent<Rigidbody2D>().MovePosition(p);
