@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class pacdot : MonoBehaviour {
+public class pacdot : NetworkBehaviour {
     public Text scoreUI;
+    private string coName;
 
     void OnTriggerEnter2D(Collider2D co)
     {
-        if (co.name == "pacman")
+        if(co.GetComponent<NetworkIdentity>())
         {
-            co.GetComponent<scoreJoueur>().score += 10;
+            this.coName = "pacman";
+        } else {
+            this.coName = "pacman";
+        }
+        if (co.name == this.coName)
+        {
+            co.GetComponent<pacmanPlayer>().score += 10;
             Destroy(gameObject);
-            scoreUI.text = "Score : " + co.GetComponent<scoreJoueur>().score.ToString();
+            scoreUI.text = "Score : " + co.GetComponent<pacmanPlayer>().score.ToString();
         }
     }
 }

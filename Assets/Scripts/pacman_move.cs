@@ -8,11 +8,11 @@ public class pacman_move : MonoBehaviour {
     public Vector2 dest = Vector2.zero;
     private Vector2 nextDist =  Vector2.zero;
     Dictionary<string, bool> currentMove = new Dictionary<string, bool>();
-    private bool[] currentMove2 = new bool[4];
 
 	// Use this for initialization
 	public void Start () {
         dest = transform.position;
+        GetComponent<pacmanPlayer>().spawnPosition = dest;
         currentMove.Add("top", false);
         currentMove.Add("bottom", false);
         currentMove.Add("right", false);
@@ -81,7 +81,7 @@ public class pacman_move : MonoBehaviour {
         return (hit.collider == GetComponent<Collider2D>());
     }
 
-    private void resetInput()
+    public void resetInput()
     {
         currentMove["top"] = false;
         currentMove["bottom"] = false;
