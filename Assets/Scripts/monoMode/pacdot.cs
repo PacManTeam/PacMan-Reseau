@@ -13,7 +13,7 @@ public class pacdot : NetworkBehaviour {
     {
         if(co.GetComponent<NetworkIdentity>())
         {
-            this.coName = "pacman";
+            this.coName = "multiPacman";
         } else {
             this.coName = "pacman";
         }
