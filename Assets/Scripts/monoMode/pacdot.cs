@@ -29,10 +29,10 @@ public class pacdot : NetworkBehaviour {
             }
             
             
-            co.GetComponent<pacmanPlayer>().score += 10;
+            co.GetComponent<pacmanPlayerMulti>().score += 10;
             Destroy(gameObject);
             
-            scoreUI.text = "Score : " + co.GetComponent<pacmanPlayer>().score.ToString();
+            scoreUI.text = "Score : " + co.GetComponent<pacmanPlayerMulti>().score.ToString();
         }
     }
 }
