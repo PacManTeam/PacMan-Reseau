@@ -16,7 +16,8 @@ public class pacdot : MonoBehaviour {
         {
             Destroy(this.gameObject);
             co.GetComponent<pacmanPlayer>().score += 10;
-            if(!co.GetComponent<AudioSource>().isPlaying)
+            this.scoreUI.text = "Score :" + co.GetComponent<pacmanPlayer>().score.ToString();
+            if (!co.GetComponent<AudioSource>().isPlaying)
             {
                 co.GetComponent<AudioSource>().UnPause();
             }
