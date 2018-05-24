@@ -4,35 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class pacdot : NetworkBehaviour {
+public class pacdot : MonoBehaviour {
     public Text scoreUI;
     private string coName;
     private AudioSource source;
 
     void OnTriggerEnter2D(Collider2D co)
     {
-        if(co.GetComponent<NetworkIdentity>())
+        Debug.Log(co.name);
+        if(co.name != "blinky")
         {
-            this.coName = "multiPacman";
-        } else {
-            this.coName = "pacman";
-        }
-        if (co.name == this.coName)
-        {
-            source = co.GetComponent<AudioSource>();
-            if (!source.isPlaying)
-            {
-                source.Play();
-            } else
-            {
-                source.UnPause();
-            }
-            
-            
+            Destroy(this.gameObject);
             co.GetComponent<pacmanPlayer>().score += 10;
-            Destroy(gameObject);
-            
-            scoreUI.text = "Score : " + co.GetComponent<pacmanPlayer>().score.ToString();
+            if(!co.GetComponent<AudioSource>().isPlaying)
+            {
+                co.GetComponent<AudioSource>().UnPause();
+            }
+            else
+            {
+                co.GetComponent<AudioSource>().Pause();
+            } 
         }
     }
 }
