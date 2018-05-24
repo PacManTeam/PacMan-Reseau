@@ -13,7 +13,6 @@ public class networkingStart : NetworkManager
     {
         if(this.SpawnMethode())
         {
-            Debug.Log(this.spawnablePosition);
             Debug.Log(this.SpawnPos);
             var player = (GameObject)GameObject.Instantiate(playerPrefab, this.SpawnPos, Quaternion.identity);
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);

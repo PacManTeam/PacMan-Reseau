@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class pacman_move : MonoBehaviour {
 
-    public float speed = 0.4f;
+    public float speed = 0.9f;
     public Vector2 dest = Vector2.zero;
     private Vector2 nextDist =  Vector2.zero;
     Dictionary<string, bool> currentMove = new Dictionary<string, bool>();
