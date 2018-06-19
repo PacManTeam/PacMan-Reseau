@@ -283,6 +283,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\bots\blinky_ia.cs" />
+    <Compile Include="Assets\Scripts\bots\clyde_ia.cs" />
+    <Compile Include="Assets\Scripts\bots\inky_ia.cs" />
+    <Compile Include="Assets\Scripts\bots\pinky_ia.cs" />
     <Compile Include="Assets\Scripts\menu\authentification.cs" />
     <Compile Include="Assets\Scripts\menu\blinkyMenu.cs" />
     <Compile Include="Assets\Scripts\menu\mainMenu.cs" />

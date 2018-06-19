@@ -6,30 +6,25 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class blinky_ia : NetworkBehaviour
-{
+public class clyde_ia : MonoBehaviour {
+
     public Transform[] waypoints;
     private bool firstWaitpoint = false;
     private bool secondWaitpoint = false;
     private Transform backActualWaypoint;
     private Transform actualWaypoint;
     private MapNode map;
-    public  float speed = 0.5f;
+    public float speed = 0.5f;
 
-
-
-//METHODES
-    public void Start(){
-
+    // Use this for initialization
+    void Start () {
         this.map = new MapNode(waypoints);
 
-        backActualWaypoint = waypoints[82];
+        backActualWaypoint = waypoints[83];
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
+	
+	// Update is called once per frame
+	void Update () {
         if (!firstWaitpoint)
         {
             if (transform.position != waypoints[83].position)
@@ -95,7 +90,7 @@ public class blinky_ia : NetworkBehaviour
 
                     //On récupère le Waypoint de destination
                     Transform point = ((WaypointNode)wpns[choix]).getWaypoint();
-                    
+
                     //Si le prédécesseur de ce successeur est = au node de départ du chemin alors c'est que l'IA va faire demi-tour. Donc...
                     if (new WaypointNode("", backActualWaypoint).Equals(new WaypointNode("", ((WaypointNode)wpns[choix]).getWaypoint())))
                     {
@@ -110,10 +105,10 @@ public class blinky_ia : NetworkBehaviour
                     }
 
                     //On enregistre le Waypoint de départ
-                    backActualWaypoint  = actualWaypoint;
+                    backActualWaypoint = actualWaypoint;
 
                     //On enregistre le Waypoint d'arrivé
-                    actualWaypoint      = point;
+                    actualWaypoint = point;
                 }
             }
         }
@@ -121,17 +116,17 @@ public class blinky_ia : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.name == "pacman")
+        if (collision.name == "pacman")
         {
             collision.GetComponent<pacmanPlayer>().healthPoint--;
-            Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14,14,1), new Quaternion()).name = "pacman";
+            Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14, 14, 1), new Quaternion()).name = "pacman";
             Destroy(collision.gameObject);
         }
     }
 
 
 
-//CLASS
+    //CLASS
     private abstract class Dijkstra
     {
 
@@ -407,7 +402,7 @@ public class blinky_ia : NetworkBehaviour
             {
                 return false;
             }
-            WaypointNode other = (WaypointNode) obj;
+            WaypointNode other = (WaypointNode)obj;
             return this.waypoint == other.waypoint;
         }
     }
@@ -1368,5 +1363,4 @@ public class blinky_ia : NetworkBehaviour
             return matrix.GetSuccessors(node);
         }
     }
-
 }
