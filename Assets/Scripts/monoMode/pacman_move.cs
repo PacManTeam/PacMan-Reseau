@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class pacman_move : MonoBehaviour {
 
     public float speed = 0.9f;
+    public static bool reverseActive;
+    public static int timeReverse = 0;
+    public static bool lowSpeed = false;
+    public static int timeLowSpeed = 0;
     public Vector2 dest = Vector2.zero;
     private Vector2 nextDist =  Vector2.zero;
     Dictionary<string, bool> currentMove = new Dictionary<string, bool>();
@@ -22,6 +26,21 @@ public class pacman_move : MonoBehaviour {
 
 	// Update is called once per frame
 	public void FixedUpdate () {
+        if (lowSpeed)
+        {
+            timeLowSpeed++;
+            if (timeLowSpeed >= 400)
+            {
+                timeLowSpeed = 0;
+                lowSpeed = false;
+                speed = 0.3f;
+            }
+            else
+            {
+                speed = 0.10f;
+            }
+        }
+
         if(Input.GetKey(KeyCode.Escape))
         {
             SceneManager.UnloadSceneAsync("soloMode");
@@ -32,26 +51,60 @@ public class pacman_move : MonoBehaviour {
         Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
         GetComponent<Rigidbody2D>().MovePosition(p);
 
-        // Check for Input if not moving
-        if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
+        if (!reverseActive)
         {
-            resetInput();
-            currentMove["top"] = true;
+            // Check for Input if not moving
+            if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.up))
+            {
+                resetInput();
+                currentMove["top"] = true;
+            }
+            if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.right))
+            {
+                resetInput();
+                currentMove["right"] = true;
+            }
+            if (Input.GetKey(KeyCode.DownArrow) && valid(-Vector2.up))
+            {
+                resetInput();
+                currentMove["bottom"] = true;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow) && valid(-Vector2.right))
+            {
+                resetInput();
+                currentMove["left"] = true;
+            }
         }
-        if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.right))
+        else
         {
-            resetInput();
-            currentMove["right"] = true;
-        }
-        if (Input.GetKey(KeyCode.DownArrow) && valid(-Vector2.up))
-        {
-            resetInput();
-            currentMove["bottom"] = true;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow) && valid(-Vector2.right))
-        {
-            resetInput();
-            currentMove["left"] = true;
+            timeReverse++;
+            
+            // Check for Input if not moving
+            if (Input.GetKey(KeyCode.UpArrow) && valid(Vector2.down))
+            {
+                resetInput();
+                currentMove["bottom"] = true;
+            }
+            if (Input.GetKey(KeyCode.RightArrow) && valid(Vector2.left))
+            {
+                resetInput();
+                currentMove["left"] = true;
+            }
+            if (Input.GetKey(KeyCode.DownArrow) && valid(-Vector2.down))
+            {
+                resetInput();
+                currentMove["top"] = true;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow) && valid(-Vector2.left))
+            {
+                resetInput();
+                currentMove["right"] = true;
+            }
+            if(timeReverse == 400)
+            {
+                pacman_move.reverseActive = false;
+                timeReverse = 0;
+            }
         }
 
         if ((Vector2)transform.position == dest)

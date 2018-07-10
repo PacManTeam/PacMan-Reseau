@@ -18,7 +18,7 @@ public class blinky_ia : NetworkBehaviour
 
 
 
-//METHODES
+    //METHODES
     public void Start(){
 
         this.map = new MapNode(waypoints);
@@ -123,6 +123,7 @@ public class blinky_ia : NetworkBehaviour
     {
         if(collision.name == "pacman")
         {
+            pacman_move.reverseActive = true;
             collision.GetComponent<pacmanPlayer>().healthPoint--;
             Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14,14,1), new Quaternion()).name = "pacman";
             Destroy(collision.gameObject);

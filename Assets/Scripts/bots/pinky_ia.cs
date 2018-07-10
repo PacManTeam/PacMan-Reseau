@@ -10,6 +10,8 @@ public class pinky_ia : MonoBehaviour
 {
 
     public Transform[] waypoints;
+    private int timeSpeeder = 0;
+    private bool speeder = false;
     private bool firstWaitpoint = false;
     private bool secondWaitpoint = false;
     private Transform backActualWaypoint;
@@ -28,6 +30,15 @@ public class pinky_ia : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (speeder)
+        {
+            timeSpeeder++;
+            if (timeSpeeder >= 400)
+            {
+                speeder = false;
+                this.speed = 0.155f;
+            }
+        }
         if (!firstWaitpoint)
         {
             if (transform.position != waypoints[83].position)
@@ -121,6 +132,9 @@ public class pinky_ia : MonoBehaviour
     {
         if (collision.name == "pacman")
         {
+            timeSpeeder = 0;
+            speeder = true;
+            speed = 0.70f;
             collision.GetComponent<pacmanPlayer>().healthPoint--;
             Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14, 14, 1), new Quaternion()).name = "pacman";
             Destroy(collision.gameObject);

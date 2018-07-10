@@ -11,7 +11,7 @@ public class pacdot : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D co)
     {
-        Debug.Log(co.name);
+        //Debug.Log(co.name);
         if(co.name != "blinky" && co.name != "clyde" && co.name != "inky" && co.name != "pinky")
         {
             Destroy(this.gameObject);
@@ -19,11 +19,11 @@ public class pacdot : MonoBehaviour {
             this.scoreUI.text = "Score :" + co.GetComponent<pacmanPlayer>().score.ToString();
             if (!co.GetComponent<AudioSource>().isPlaying)
             {
-                co.GetComponent<AudioSource>().UnPause();
+                co.GetComponent<AudioSource>().Play();
             }
             else
             {
-                co.GetComponent<AudioSource>().Pause();
+                
             }
         }
     }

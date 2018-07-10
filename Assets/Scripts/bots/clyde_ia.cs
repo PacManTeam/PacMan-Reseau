@@ -15,16 +15,28 @@ public class clyde_ia : MonoBehaviour {
     private Transform actualWaypoint;
     private MapNode map;
     public float speed = 0.5f;
+    public static bool passMuraille = false;
+    public int timePassMuraille = 0;
 
     // Use this for initialization
     void Start () {
-        this.map = new MapNode(waypoints);
+        this.map = new MapNode(waypoints, passMuraille);
 
         backActualWaypoint = waypoints[83];
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (passMuraille)
+        {
+            timePassMuraille++;
+            if (timePassMuraille >= 400)
+            {
+                passMuraille = false;
+                speed = 0.15f;
+                this.map = new MapNode(waypoints, passMuraille);
+            }
+        }
         if (!firstWaitpoint)
         {
             if (transform.position != waypoints[83].position)
@@ -118,6 +130,13 @@ public class clyde_ia : MonoBehaviour {
     {
         if (collision.name == "pacman")
         {
+            if (!passMuraille)
+            {
+                passMuraille = true;
+                this.map = new MapNode(waypoints, passMuraille);
+                timePassMuraille = 0;
+                speed = 0.13f;
+            }
             collision.GetComponent<pacmanPlayer>().healthPoint--;
             Instantiate<pacmanPlayer>(collision.GetComponent<pacmanPlayer>(), new Vector3(14, 14, 1), new Quaternion()).name = "pacman";
             Destroy(collision.gameObject);
@@ -1154,92 +1173,279 @@ public class clyde_ia : MonoBehaviour {
     {
         private Matrix matrix;
 
-        public MapNode(Transform[] waypoints)
+        public MapNode(Transform[] waypoints, bool passMuraille)
         {
-            WaypointNode wn0 = new WaypointNode("wn0", waypoints[0]);
-            WaypointNode wn1 = new WaypointNode("wn1", waypoints[1]);
-            WaypointNode wn2 = new WaypointNode("wn2", waypoints[2]);
-            WaypointNode wn3 = new WaypointNode("wn3", waypoints[3]);
-            WaypointNode wn4 = new WaypointNode("wn4", waypoints[4]);
-            WaypointNode wn5 = new WaypointNode("wn5", waypoints[5]);
-            WaypointNode wn6 = new WaypointNode("wn6", waypoints[6]);
-            WaypointNode wn7 = new WaypointNode("wn7", waypoints[7]);
-            WaypointNode wn8 = new WaypointNode("wn8", waypoints[8]);
-            WaypointNode wn9 = new WaypointNode("wn9", waypoints[9]);
-            WaypointNode wn10 = new WaypointNode("wn10", waypoints[10]);
-            WaypointNode wn11 = new WaypointNode("wn11", waypoints[11]);
-            WaypointNode wn12 = new WaypointNode("wn12", waypoints[12]);
-            WaypointNode wn13 = new WaypointNode("wn13", waypoints[13]);
-            WaypointNode wn14 = new WaypointNode("wn14", waypoints[14]);
-            WaypointNode wn15 = new WaypointNode("wn15", waypoints[15]);
-            WaypointNode wn16 = new WaypointNode("wn16", waypoints[16]);
-            WaypointNode wn17 = new WaypointNode("wn17", waypoints[17]);
-            WaypointNode wn18 = new WaypointNode("wn18", waypoints[18]);
-            WaypointNode wn19 = new WaypointNode("wn19", waypoints[19]);
-            WaypointNode wn20 = new WaypointNode("wn20", waypoints[20]);
-            WaypointNode wn21 = new WaypointNode("wn21", waypoints[21]);
-            WaypointNode wn22 = new WaypointNode("wn22", waypoints[22]);
-            WaypointNode wn23 = new WaypointNode("wn23", waypoints[23]);
-            WaypointNode wn24 = new WaypointNode("wn24", waypoints[24]);
-            WaypointNode wn25 = new WaypointNode("wn25", waypoints[25]);
-            WaypointNode wn26 = new WaypointNode("wn26", waypoints[26]);
-            WaypointNode wn27 = new WaypointNode("wn27", waypoints[27]);
-            WaypointNode wn28 = new WaypointNode("wn28", waypoints[28]);
-            WaypointNode wn29 = new WaypointNode("wn29", waypoints[29]);
-            WaypointNode wn30 = new WaypointNode("wn30", waypoints[30]);
-            WaypointNode wn31 = new WaypointNode("wn31", waypoints[31]);
-            WaypointNode wn32 = new WaypointNode("wn32", waypoints[32]);
-            WaypointNode wn33 = new WaypointNode("wn33", waypoints[33]);
-            WaypointNode wn34 = new WaypointNode("wn34", waypoints[34]);
-            WaypointNode wn35 = new WaypointNode("wn35", waypoints[35]);
-            WaypointNode wn36 = new WaypointNode("wn36", waypoints[36]);
-            WaypointNode wn37 = new WaypointNode("wn37", waypoints[37]);
-            WaypointNode wn38 = new WaypointNode("wn38", waypoints[38]);
-            WaypointNode wn39 = new WaypointNode("wn39", waypoints[39]);
-            WaypointNode wn40 = new WaypointNode("wn40", waypoints[40]);
-            WaypointNode wn41 = new WaypointNode("wn41", waypoints[41]);
-            WaypointNode wn42 = new WaypointNode("wn42", waypoints[42]);
-            WaypointNode wn43 = new WaypointNode("wn43", waypoints[43]);
-            WaypointNode wn44 = new WaypointNode("wn44", waypoints[44]);
-            WaypointNode wn45 = new WaypointNode("wn45", waypoints[45]);
-            WaypointNode wn46 = new WaypointNode("wn46", waypoints[46]);
-            WaypointNode wn47 = new WaypointNode("wn47", waypoints[47]);
-            WaypointNode wn48 = new WaypointNode("wn48", waypoints[48]);
-            WaypointNode wn49 = new WaypointNode("wn49", waypoints[49]);
-            WaypointNode wn50 = new WaypointNode("wn50", waypoints[50]);
-            WaypointNode wn51 = new WaypointNode("wn51", waypoints[51]);
-            WaypointNode wn52 = new WaypointNode("wn52", waypoints[52]);
-            WaypointNode wn53 = new WaypointNode("wn53", waypoints[53]);
-            WaypointNode wn54 = new WaypointNode("wn54", waypoints[54]);
-            WaypointNode wn55 = new WaypointNode("wn55", waypoints[55]);
-            WaypointNode wn56 = new WaypointNode("wn56", waypoints[56]);
-            WaypointNode wn57 = new WaypointNode("wn57", waypoints[57]);
-            WaypointNode wn58 = new WaypointNode("wn58", waypoints[58]);
-            WaypointNode wn59 = new WaypointNode("wn59", waypoints[59]);
-            WaypointNode wn60 = new WaypointNode("wn60", waypoints[60]);
-            WaypointNode wn61 = new WaypointNode("wn61", waypoints[61]);
-            WaypointNode wn62 = new WaypointNode("wn62", waypoints[62]);
-            WaypointNode wn63 = new WaypointNode("wn63", waypoints[63]);
-            WaypointNode wn64 = new WaypointNode("wn64", waypoints[64]);
-            WaypointNode wn65 = new WaypointNode("wn65", waypoints[65]);
-            WaypointNode wn66 = new WaypointNode("wn66", waypoints[66]);
-            WaypointNode wn67 = new WaypointNode("wn67", waypoints[67]);
-            WaypointNode wn68 = new WaypointNode("wn68", waypoints[68]);
-            WaypointNode wn69 = new WaypointNode("wn69", waypoints[69]);
-            WaypointNode wn70 = new WaypointNode("wn70", waypoints[70]);
-            WaypointNode wn71 = new WaypointNode("wn71", waypoints[71]);
-            WaypointNode wn72 = new WaypointNode("wn72", waypoints[72]);
-            WaypointNode wn73 = new WaypointNode("wn73", waypoints[73]);
-            WaypointNode wn74 = new WaypointNode("wn74", waypoints[74]);
-            WaypointNode wn75 = new WaypointNode("wn75", waypoints[75]);
-            WaypointNode wn76 = new WaypointNode("wn76", waypoints[76]);
-            WaypointNode wn77 = new WaypointNode("wn77", waypoints[77]);
-            WaypointNode wn78 = new WaypointNode("wn78", waypoints[78]);
-            WaypointNode wn79 = new WaypointNode("wn79", waypoints[79]);
-            WaypointNode wn80 = new WaypointNode("wn80", waypoints[80]);
-            WaypointNode wn81 = new WaypointNode("wn81", waypoints[81]);
-            WaypointNode wn82 = new WaypointNode("wn82", waypoints[82]);
-            WaypointNode wn83 = new WaypointNode("wn83", waypoints[83]);
+            WaypointNode wn0;
+            WaypointNode wn1;
+            WaypointNode wn2;
+            WaypointNode wn3;
+            WaypointNode wn4;
+            WaypointNode wn5;
+            WaypointNode wn6;
+            WaypointNode wn7;
+            WaypointNode wn8;
+            WaypointNode wn9;
+            WaypointNode wn10;
+            WaypointNode wn11;
+            WaypointNode wn12;
+            WaypointNode wn13;
+            WaypointNode wn14;
+            WaypointNode wn15;
+            WaypointNode wn16;
+            WaypointNode wn17;
+            WaypointNode wn18;
+            WaypointNode wn19;
+            WaypointNode wn20;
+            WaypointNode wn21;
+            WaypointNode wn22;
+            WaypointNode wn23;
+            WaypointNode wn24;
+            WaypointNode wn25;
+            WaypointNode wn26;
+            WaypointNode wn27;
+            WaypointNode wn28;
+            WaypointNode wn29;
+            WaypointNode wn30;
+            WaypointNode wn31;
+            WaypointNode wn32;
+            WaypointNode wn33;
+            WaypointNode wn34;
+            WaypointNode wn35;
+            WaypointNode wn36;
+            WaypointNode wn37;
+            WaypointNode wn38;
+            WaypointNode wn39;
+            WaypointNode wn40;
+            WaypointNode wn41;
+            WaypointNode wn42;
+            WaypointNode wn43;
+            WaypointNode wn44;
+            WaypointNode wn45;
+            WaypointNode wn46;
+            WaypointNode wn47;
+            WaypointNode wn48;
+            WaypointNode wn49;
+            WaypointNode wn50;
+            WaypointNode wn51;
+            WaypointNode wn52;
+            WaypointNode wn53;
+            WaypointNode wn54;
+            WaypointNode wn55;
+            WaypointNode wn56;
+            WaypointNode wn57;
+            WaypointNode wn58;
+            WaypointNode wn59;
+            WaypointNode wn60;
+            WaypointNode wn61;
+            WaypointNode wn62;
+            WaypointNode wn63;
+            WaypointNode wn64;
+            WaypointNode wn65;
+            WaypointNode wn66;
+            WaypointNode wn67;
+            WaypointNode wn68;
+            WaypointNode wn69;
+            WaypointNode wn70;
+            WaypointNode wn71;
+            WaypointNode wn72;
+            WaypointNode wn73;
+            WaypointNode wn74;
+            WaypointNode wn75;
+            WaypointNode wn76;
+            WaypointNode wn77;
+            WaypointNode wn78;
+            WaypointNode wn79;
+            WaypointNode wn80;
+            WaypointNode wn81;
+            WaypointNode wn82;
+            WaypointNode wn83;
+
+            if (passMuraille)
+            {
+                List<Transform> reorg = new List<Transform>();
+                for(int i = 0; i < waypoints.Length; i++)
+                {
+                    reorg.Add(waypoints[i]);
+                }
+                shuffle(reorg);
+                Transform[] copy = new Transform[84];
+                for(int i = 0; i < reorg.Count; i++)
+                {
+                    copy[i] = reorg.ElementAt(i);
+                }
+
+                wn0 = new WaypointNode("wn0", copy[0]);
+                wn1 = new WaypointNode("wn1", copy[1]);
+                wn2 = new WaypointNode("wn2", copy[2]);
+                wn3 = new WaypointNode("wn3", copy[3]);
+                wn4 = new WaypointNode("wn4", copy[4]);
+                wn5 = new WaypointNode("wn5", copy[5]);
+                wn6 = new WaypointNode("wn6", copy[6]);
+                wn7 = new WaypointNode("wn7", copy[7]);
+                wn8 = new WaypointNode("wn8", copy[8]);
+                wn9 = new WaypointNode("wn9", copy[9]);
+                wn10 = new WaypointNode("wn10", copy[10]);
+                wn11 = new WaypointNode("wn11", copy[11]);
+                wn12 = new WaypointNode("wn12", copy[12]);
+                wn13 = new WaypointNode("wn13", copy[13]);
+                wn14 = new WaypointNode("wn14", copy[14]);
+                wn15 = new WaypointNode("wn15", copy[15]);
+                wn16 = new WaypointNode("wn16", copy[16]);
+                wn17 = new WaypointNode("wn17", copy[17]);
+                wn18 = new WaypointNode("wn18", copy[18]);
+                wn19 = new WaypointNode("wn19", copy[19]);
+                wn20 = new WaypointNode("wn20", copy[20]);
+                wn21 = new WaypointNode("wn21", copy[21]);
+                wn22 = new WaypointNode("wn22", copy[22]);
+                wn23 = new WaypointNode("wn23", copy[23]);
+                wn24 = new WaypointNode("wn24", copy[24]);
+                wn25 = new WaypointNode("wn25", copy[25]);
+                wn26 = new WaypointNode("wn26", copy[26]);
+                wn27 = new WaypointNode("wn27", copy[27]);
+                wn28 = new WaypointNode("wn28", copy[28]);
+                wn29 = new WaypointNode("wn29", copy[29]);
+                wn30 = new WaypointNode("wn30", copy[30]);
+                wn31 = new WaypointNode("wn31", copy[31]);
+                wn32 = new WaypointNode("wn32", copy[32]);
+                wn33 = new WaypointNode("wn33", copy[33]);
+                wn34 = new WaypointNode("wn34", copy[34]);
+                wn35 = new WaypointNode("wn35", copy[35]);
+                wn36 = new WaypointNode("wn36", copy[36]);
+                wn37 = new WaypointNode("wn37", copy[37]);
+                wn38 = new WaypointNode("wn38", copy[38]);
+                wn39 = new WaypointNode("wn39", copy[39]);
+                wn40 = new WaypointNode("wn40", copy[40]);
+                wn41 = new WaypointNode("wn41", copy[41]);
+                wn42 = new WaypointNode("wn42", copy[42]);
+                wn43 = new WaypointNode("wn43", copy[43]);
+                wn44 = new WaypointNode("wn44", copy[44]);
+                wn45 = new WaypointNode("wn45", copy[45]);
+                wn46 = new WaypointNode("wn46", copy[46]);
+                wn47 = new WaypointNode("wn47", copy[47]);
+                wn48 = new WaypointNode("wn48", copy[48]);
+                wn49 = new WaypointNode("wn49", copy[49]);
+                wn50 = new WaypointNode("wn50", copy[50]);
+                wn51 = new WaypointNode("wn51", copy[51]);
+                wn52 = new WaypointNode("wn52", copy[52]);
+                wn53 = new WaypointNode("wn53", copy[53]);
+                wn54 = new WaypointNode("wn54", copy[54]);
+                wn55 = new WaypointNode("wn55", copy[55]);
+                wn56 = new WaypointNode("wn56", copy[56]);
+                wn57 = new WaypointNode("wn57", copy[57]);
+                wn58 = new WaypointNode("wn58", copy[58]);
+                wn59 = new WaypointNode("wn59", copy[59]);
+                wn60 = new WaypointNode("wn60", copy[60]);
+                wn61 = new WaypointNode("wn61", copy[61]);
+                wn62 = new WaypointNode("wn62", copy[62]);
+                wn63 = new WaypointNode("wn63", copy[63]);
+                wn64 = new WaypointNode("wn64", copy[64]);
+                wn65 = new WaypointNode("wn65", copy[65]);
+                wn66 = new WaypointNode("wn66", copy[66]);
+                wn67 = new WaypointNode("wn67", copy[67]);
+                wn68 = new WaypointNode("wn68", copy[68]);
+                wn69 = new WaypointNode("wn69", copy[69]);
+                wn70 = new WaypointNode("wn70", copy[70]);
+                wn71 = new WaypointNode("wn71", copy[71]);
+                wn72 = new WaypointNode("wn72", copy[72]);
+                wn73 = new WaypointNode("wn73", copy[73]);
+                wn74 = new WaypointNode("wn74", copy[74]);
+                wn75 = new WaypointNode("wn75", copy[75]);
+                wn76 = new WaypointNode("wn76", copy[76]);
+                wn77 = new WaypointNode("wn77", copy[77]);
+                wn78 = new WaypointNode("wn78", copy[78]);
+                wn79 = new WaypointNode("wn79", copy[79]);
+                wn80 = new WaypointNode("wn80", copy[80]);
+                wn81 = new WaypointNode("wn81", copy[81]);
+                wn82 = new WaypointNode("wn82", copy[82]);
+                wn83 = new WaypointNode("wn83", copy[83]);
+            }
+            else
+            {
+                wn0 = new WaypointNode("wn0", waypoints[0]);
+                wn1 = new WaypointNode("wn1", waypoints[1]);
+                wn2 = new WaypointNode("wn2", waypoints[2]);
+                wn3 = new WaypointNode("wn3", waypoints[3]);
+                wn4 = new WaypointNode("wn4", waypoints[4]);
+                wn5 = new WaypointNode("wn5", waypoints[5]);
+                wn6 = new WaypointNode("wn6", waypoints[6]);
+                wn7 = new WaypointNode("wn7", waypoints[7]);
+                wn8 = new WaypointNode("wn8", waypoints[8]);
+                wn9 = new WaypointNode("wn9", waypoints[9]);
+                wn10 = new WaypointNode("wn10", waypoints[10]);
+                wn11 = new WaypointNode("wn11", waypoints[11]);
+                wn12 = new WaypointNode("wn12", waypoints[12]);
+                wn13 = new WaypointNode("wn13", waypoints[13]);
+                wn14 = new WaypointNode("wn14", waypoints[14]);
+                wn15 = new WaypointNode("wn15", waypoints[15]);
+                wn16 = new WaypointNode("wn16", waypoints[16]);
+                wn17 = new WaypointNode("wn17", waypoints[17]);
+                wn18 = new WaypointNode("wn18", waypoints[18]);
+                wn19 = new WaypointNode("wn19", waypoints[19]);
+                wn20 = new WaypointNode("wn20", waypoints[20]);
+                wn21 = new WaypointNode("wn21", waypoints[21]);
+                wn22 = new WaypointNode("wn22", waypoints[22]);
+                wn23 = new WaypointNode("wn23", waypoints[23]);
+                wn24 = new WaypointNode("wn24", waypoints[24]);
+                wn25 = new WaypointNode("wn25", waypoints[25]);
+                wn26 = new WaypointNode("wn26", waypoints[26]);
+                wn27 = new WaypointNode("wn27", waypoints[27]);
+                wn28 = new WaypointNode("wn28", waypoints[28]);
+                wn29 = new WaypointNode("wn29", waypoints[29]);
+                wn30 = new WaypointNode("wn30", waypoints[30]);
+                wn31 = new WaypointNode("wn31", waypoints[31]);
+                wn32 = new WaypointNode("wn32", waypoints[32]);
+                wn33 = new WaypointNode("wn33", waypoints[33]);
+                wn34 = new WaypointNode("wn34", waypoints[34]);
+                wn35 = new WaypointNode("wn35", waypoints[35]);
+                wn36 = new WaypointNode("wn36", waypoints[36]);
+                wn37 = new WaypointNode("wn37", waypoints[37]);
+                wn38 = new WaypointNode("wn38", waypoints[38]);
+                wn39 = new WaypointNode("wn39", waypoints[39]);
+                wn40 = new WaypointNode("wn40", waypoints[40]);
+                wn41 = new WaypointNode("wn41", waypoints[41]);
+                wn42 = new WaypointNode("wn42", waypoints[42]);
+                wn43 = new WaypointNode("wn43", waypoints[43]);
+                wn44 = new WaypointNode("wn44", waypoints[44]);
+                wn45 = new WaypointNode("wn45", waypoints[45]);
+                wn46 = new WaypointNode("wn46", waypoints[46]);
+                wn47 = new WaypointNode("wn47", waypoints[47]);
+                wn48 = new WaypointNode("wn48", waypoints[48]);
+                wn49 = new WaypointNode("wn49", waypoints[49]);
+                wn50 = new WaypointNode("wn50", waypoints[50]);
+                wn51 = new WaypointNode("wn51", waypoints[51]);
+                wn52 = new WaypointNode("wn52", waypoints[52]);
+                wn53 = new WaypointNode("wn53", waypoints[53]);
+                wn54 = new WaypointNode("wn54", waypoints[54]);
+                wn55 = new WaypointNode("wn55", waypoints[55]);
+                wn56 = new WaypointNode("wn56", waypoints[56]);
+                wn57 = new WaypointNode("wn57", waypoints[57]);
+                wn58 = new WaypointNode("wn58", waypoints[58]);
+                wn59 = new WaypointNode("wn59", waypoints[59]);
+                wn60 = new WaypointNode("wn60", waypoints[60]);
+                wn61 = new WaypointNode("wn61", waypoints[61]);
+                wn62 = new WaypointNode("wn62", waypoints[62]);
+                wn63 = new WaypointNode("wn63", waypoints[63]);
+                wn64 = new WaypointNode("wn64", waypoints[64]);
+                wn65 = new WaypointNode("wn65", waypoints[65]);
+                wn66 = new WaypointNode("wn66", waypoints[66]);
+                wn67 = new WaypointNode("wn67", waypoints[67]);
+                wn68 = new WaypointNode("wn68", waypoints[68]);
+                wn69 = new WaypointNode("wn69", waypoints[69]);
+                wn70 = new WaypointNode("wn70", waypoints[70]);
+                wn71 = new WaypointNode("wn71", waypoints[71]);
+                wn72 = new WaypointNode("wn72", waypoints[72]);
+                wn73 = new WaypointNode("wn73", waypoints[73]);
+                wn74 = new WaypointNode("wn74", waypoints[74]);
+                wn75 = new WaypointNode("wn75", waypoints[75]);
+                wn76 = new WaypointNode("wn76", waypoints[76]);
+                wn77 = new WaypointNode("wn77", waypoints[77]);
+                wn78 = new WaypointNode("wn78", waypoints[78]);
+                wn79 = new WaypointNode("wn79", waypoints[79]);
+                wn80 = new WaypointNode("wn80", waypoints[80]);
+                wn81 = new WaypointNode("wn81", waypoints[81]);
+                wn82 = new WaypointNode("wn82", waypoints[82]);
+                wn83 = new WaypointNode("wn83", waypoints[83]);
+            }
 
             Curve c0 = new Curve("83 --> 82", wn83, wn82);
             Edge e0 = new Edge("82 <=> 11", wn82, wn11);
@@ -1356,6 +1562,20 @@ public class clyde_ia : MonoBehaviour {
             Edge[] edges = new Edge[] { c0, e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46, e47, e48, e49, e50, e51, e52, e53, e54, e55, e56, e57, e58, e59, e60, e61, e62, e63, e64, e65, e66, e67, e68, e69, e70, e71, e72, e73, e74, e75, e76, e77, e78, e79, e80, e81, e82, e83, e84, e85, e86, e87, e88, e89, e90, e91, e92, e93, e94, e95, e96, e97, e98, e99, e100, e101, e102, e103, e104, e105, e106, e107, e108 };
 
             this.matrix = new Matrix(nodes, edges);
+        }
+
+        private void shuffle(IList list)
+        {
+            int n = list.Count;
+            System.Random rnd = new System.Random();
+            while (n > 1)
+            {
+                int k = (rnd.Next(0, n) % n);
+                n--;
+                object value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
 
         public Node[] GetSuccessors(Node node)
