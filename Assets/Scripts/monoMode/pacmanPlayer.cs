@@ -12,10 +12,13 @@ public class pacmanPlayer : MonoBehaviour {
     // Méthode appeler toutes les frames affiché dans le jeu
     void FixedUpdate () {
         isAlive();
-        if (score >= 2130)
+        GameObject maze = GameObject.Find("maze");
+        if (GameObject.Find("maze").GetComponentInChildren<pacdot>() == null)
         {
             //SceneManager permet de gérer les scènes créer dans Unity
             SceneManager.LoadScene("soloMode");
+            Debug.Log(this.score);
+            GameObject.Find("pacman").GetComponentInChildren<pacmanPlayer>().score = this.score;
         }
     }
 
@@ -43,6 +46,7 @@ public class pacmanPlayer : MonoBehaviour {
         {
             Destroy(gameObject);
             Destroy(life3);
+            SceneManager.LoadScene("soloMode");
         }
     }
 }

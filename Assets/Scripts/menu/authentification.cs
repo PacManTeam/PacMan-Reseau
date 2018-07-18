@@ -14,13 +14,15 @@ public class authentification : MonoBehaviour {
     public void tryToConnect()
     {
         Debug.Log("tryTo");
-        StartCoroutine(this.testAuth());
+        this.testAuth();
+        //StartCoroutine(this.testAuth());
     }
 
-    private IEnumerator testAuth()
+    private void testAuth()
     {
         Debug.Log("Authentification");
-        WWWForm form = new WWWForm();
+        SceneManager.LoadScene("mainMenu");
+        /*WWWForm form = new WWWForm();
         form.AddField("login", "admin");
         form.AddField("password", "admin");
 
@@ -37,6 +39,6 @@ public class authentification : MonoBehaviour {
             {
                 SceneManager.LoadScene("mainMenu");
             }
-        }
+        }*/
     }
 }

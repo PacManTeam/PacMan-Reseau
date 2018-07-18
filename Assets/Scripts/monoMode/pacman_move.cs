@@ -14,8 +14,8 @@ public class pacman_move : MonoBehaviour {
     private Vector2 nextDist =  Vector2.zero;
     Dictionary<string, bool> currentMove = new Dictionary<string, bool>();
 
-	// Use this for initialization
-	public void Start () {
+    // Use this for initialization
+    public void Start () {
         dest = transform.position;
         GetComponent<pacmanPlayer>().spawnPosition = dest;
         currentMove.Add("top", false);
