@@ -2,12 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class authentification : MonoBehaviour {
 
+    GameObject registerForm;
+    GameObject signUpForm;
+
+    public void Start()
+    {
+        this.registerForm = GameObject.Find("register");
+        this.signUpForm = GameObject.Find("isSignUp");
+        this.registerForm.SetActive(false);
+    }
+
     public void editFinish()
     {
+
+    }
+
+    public void openRegisterForm()
+    {
+        if(this.signUpForm.activeInHierarchy)
+        {
+            GameObject.Find("signUp").GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "Connexion";
+            this.registerForm.SetActive(true);
+            this.signUpForm.SetActive(false);
+        } else
+        {
+            GameObject.Find("signUp").GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "Inscription";
+            this.registerForm.SetActive(false);
+            this.signUpForm.SetActive(true);
+        }
 
     }
 
